@@ -20,6 +20,10 @@ namespace Calculator__Forms__With_UI_
         public bool bSubtraction = false;
         public bool bMultiplication = false;
         public bool bDivision = false;
+        string szText;
+        int iDigit;
+        int iNumber;
+        int iwholeNumber;
 
         //on the first variable, which is double, it is a placeholder for the result 
         //and ongoing calculations
@@ -42,22 +46,60 @@ namespace Calculator__Forms__With_UI_
 
         private void Subtraction_Click(object sender, EventArgs e)
         {
-            
+            ValueTextBox.Text += "-";
+            szText += "-";
+            iNumber = iDigit;
+            iDigit = 0;
+            bAddition = false;
+            bDivision = false;
+            bMultiplication = false;
+            bSubtraction = true;
+            ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
+            ValueTextBox.SelectionLength = 0;
+            ValueTextBox.Focus();
         }
 
         private void Addition_Click(object sender, EventArgs e)
         {
-
+            ValueTextBox.Text += "+";
+            szText += "+";
+            iNumber = iDigit;
+            iDigit = 0;
+            bAddition = true;
+            bDivision = false;
+            bMultiplication = false;
+            ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
+            ValueTextBox.SelectionLength = 0;
+            ValueTextBox.Focus();
         }
 
         private void Division_Click(object sender, EventArgs e)
         {
+            ValueTextBox.Text += "/";
+            szText += "/";
+            iNumber = iDigit;
+            iDigit = 0;
+            bAddition = false;
+            bDivision = true;
+            bMultiplication = false;
+            ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
+            ValueTextBox.SelectionLength = 0;
+            ValueTextBox.Focus();
 
         }
 
         private void Multiplication_Click(object sender, EventArgs e)
         {
-
+            ValueTextBox.Text += "x";
+            szText += "x";
+            iNumber = iDigit;
+            iDigit = 0;
+            bAddition = false;
+            bDivision = false;
+            bMultiplication = true;
+            ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
+            ValueTextBox.SelectionLength = 0;
+            ValueTextBox.Focus();
         }
 
         private void ValueTextBox_TextChanged(object sender, EventArgs e)
@@ -67,17 +109,154 @@ namespace Calculator__Forms__With_UI_
 
         private void ValueTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            szText += e.KeyChar;
+            szText.Trim();
+            if (char.IsDigit(e.KeyChar))
             {
-                e.Handled = true;
-                if (bAddition)
+                if (iDigit > 0)
                 {
-                    iTotal += e.KeyChar;
+                    iDigit = (e.KeyChar - '0')  +(iDigit * 10);
+                }
+                else
+                {
+                    iDigit = e.KeyChar - '0';
+
 
                 }
+            }
+            else if (e.KeyChar == '+')
+            {
+                iNumber = iDigit;
+                iDigit = 0;
+                bAddition = true;
+                bDivision = false;
+                bMultiplication = false;
+                bSubtraction = false; 
+            }
+            else if (e.KeyChar == '-')
+            {
+                iNumber = iDigit;
+                iDigit = 0;
+                bAddition = false;
+                bDivision = false;
+                bMultiplication = false;
+                bSubtraction = true;
+            }
+            else if (e.KeyChar == 'x')
+            {
+                iNumber = iDigit;
+                bMultiplication = true;
+                bAddition = false;
+                bDivision = false;
+                bSubtraction = false;
+                iDigit = 0;
+            }
+            else if (e.KeyChar == '/')
+            {
+                iNumber = iDigit;
+                bDivision = true;
+                bMultiplication = false;
+                bAddition = false;
+                bSubtraction = false;
+                iDigit = 0;
+            }
+            if (e.KeyChar == '=')
+            {
+                int iResul = 0;
+                if (bAddition)
+                {
+                    iNumber += iDigit;
+                }
+                else if (bMultiplication)
+                {
+                    iNumber *= iDigit;
+                }
+                else if (bDivision)
+                {
+                    if(iDigit == 0)
+                    {
+                        MessageBox.Show("Cannot devide by 0");
+                        return;
+
+                    }
+                    iNumber /= iDigit;
+                }
+                else if(bSubtraction)
+                {
+                    iNumber -= iDigit;
+
+                }
+                iwholeNumber = iNumber;
+                iNumber = 0;
+                iDigit = iwholeNumber;
+                szText += iwholeNumber.ToString(); ;
+                ValueTextBox.Text = szText;
+                e.Handled = true;
+                ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
+                ValueTextBox.SelectionLength = 0;
+                ValueTextBox.Focus();
 
             }
+            //    if (char.IsDigit(e.KeyChar))
+            //{
+            //    iDigit = 
+            //    //e.Handled = true;
+            //    if (bAddition)
+            //    {
+            //        iTotal += e.KeyChar;
+
+            //    }
+
+            //}
            
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            szText = "";
+            ValueTextBox.Text = "";
+            iNumber = 0;
+            iDigit = 0;
+
+
+        }
+
+        private void EqualOperator_Click(object sender, EventArgs e)
+        {
+
+            ValueTextBox.Text += "=";
+            szText += "=";
+            int iResul = 0;
+            if (bAddition)
+            {
+                iNumber += iDigit;
+            }
+            else if (bMultiplication)
+            {
+                iNumber *= iDigit;
+            }
+            else if (bSubtraction)
+            {
+                iNumber -= iDigit;
+            }
+            else if (bDivision)
+            {
+                if (iDigit == 0)
+                {
+                    MessageBox.Show("Cannot devide by 0");
+                    return;
+
+                }
+                iNumber /= iDigit;
+            }
+            iwholeNumber = iNumber;
+            iNumber = 0;
+            iDigit = iwholeNumber;
+            szText += iwholeNumber.ToString(); ;
+            ValueTextBox.Text = szText;
+            ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
+            ValueTextBox.SelectionLength = 0;
+            ValueTextBox.Focus();
         }
     }
 }
