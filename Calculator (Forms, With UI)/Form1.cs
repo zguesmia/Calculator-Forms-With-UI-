@@ -43,63 +43,48 @@ namespace Calculator__Forms__With_UI_
         {
             InitializeComponent();
         }
+        void  ProcessAction(bool bAdd, bool bSubs, bool bDiv, bool bMult, bool bselect = true)
+        {
+            iNumber = iDigit;
+            iDigit = 0;
+            bAddition = bAdd;
+            bDivision = bDiv;
+            bMultiplication = bMult;
+            bSubtraction = bSubs;
+            if (bselect)
+            {
+                ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
+                ValueTextBox.SelectionLength = 0;
+                ValueTextBox.Focus();
+            }
+        }
 
         private void Subtraction_Click(object sender, EventArgs e)
         {
             ValueTextBox.Text += "-";
             szText += "-";
-            iNumber = iDigit;
-            iDigit = 0;
-            bAddition = false;
-            bDivision = false;
-            bMultiplication = false;
-            bSubtraction = true;
-            ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
-            ValueTextBox.SelectionLength = 0;
-            ValueTextBox.Focus();
+            ProcessAction(false, true, false, false);
         }
 
         private void Addition_Click(object sender, EventArgs e)
         {
             ValueTextBox.Text += "+";
             szText += "+";
-            iNumber = iDigit;
-            iDigit = 0;
-            bAddition = true;
-            bDivision = false;
-            bMultiplication = false;
-            ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
-            ValueTextBox.SelectionLength = 0;
-            ValueTextBox.Focus();
+            ProcessAction(true, false, false, false);
         }
 
         private void Division_Click(object sender, EventArgs e)
         {
             ValueTextBox.Text += "/";
             szText += "/";
-            iNumber = iDigit;
-            iDigit = 0;
-            bAddition = false;
-            bDivision = true;
-            bMultiplication = false;
-            ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
-            ValueTextBox.SelectionLength = 0;
-            ValueTextBox.Focus();
-
+            ProcessAction(false, false, true, false);
         }
 
         private void Multiplication_Click(object sender, EventArgs e)
         {
             ValueTextBox.Text += "x";
             szText += "x";
-            iNumber = iDigit;
-            iDigit = 0;
-            bAddition = false;
-            bDivision = false;
-            bMultiplication = true;
-            ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
-            ValueTextBox.SelectionLength = 0;
-            ValueTextBox.Focus();
+            ProcessAction(false, false, false, true);
         }
 
         private void ValueTextBox_TextChanged(object sender, EventArgs e)
@@ -126,39 +111,20 @@ namespace Calculator__Forms__With_UI_
             }
             else if (e.KeyChar == '+')
             {
-                iNumber = iDigit;
-                iDigit = 0;
-                bAddition = true;
-                bDivision = false;
-                bMultiplication = false;
-                bSubtraction = false; 
+                ProcessAction(true, false, false, false, false);
             }
             else if (e.KeyChar == '-')
             {
-                iNumber = iDigit;
-                iDigit = 0;
-                bAddition = false;
-                bDivision = false;
-                bMultiplication = false;
-                bSubtraction = true;
+                ProcessAction(false, true, false, false, false);
+
             }
             else if (e.KeyChar == 'x')
             {
-                iNumber = iDigit;
-                bMultiplication = true;
-                bAddition = false;
-                bDivision = false;
-                bSubtraction = false;
-                iDigit = 0;
+                ProcessAction(false, false, false, true, false);
             }
             else if (e.KeyChar == '/')
             {
-                iNumber = iDigit;
-                bDivision = true;
-                bMultiplication = false;
-                bAddition = false;
-                bSubtraction = false;
-                iDigit = 0;
+                ProcessAction(false, false, true, false, false);
             }
             if (e.KeyChar == '=')
             {
@@ -226,7 +192,6 @@ namespace Calculator__Forms__With_UI_
 
             ValueTextBox.Text += "=";
             szText += "=";
-            int iResul = 0;
             if (bAddition)
             {
                 iNumber += iDigit;
