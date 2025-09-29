@@ -20,14 +20,18 @@ namespace Calculator__Forms__With_UI_
         public bool bSubtraction = false;
         public bool bMultiplication = false;
         public bool bDivision = false;
+        public bool bSquareRoot = false;
+        public bool bCubeRoot = false;
         string szText;
         int iDigit;
         int iNumber;
+        double dNumber;
+        
 
         //on the first variable, which is double, it is a placeholder for the result 
         //and ongoing calculations
 
-        
+
 
         // Adding event handlers for arithmetic buttons
 
@@ -42,7 +46,7 @@ namespace Calculator__Forms__With_UI_
         {
             InitializeComponent();
         }
-        void  ProcessAction(bool bAdd, bool bSubs, bool bDiv, bool bMult, bool bselect = true)
+        void  ProcessAction(bool bAdd, bool bSubs, bool bDiv, bool bMult, bool bSqrRoot, bool bCube,bool bselect = true)
         {
             //I created this function, to replace common code. Very good practice to replace common code by a function, or method.
             iNumber = iDigit;
@@ -51,6 +55,8 @@ namespace Calculator__Forms__With_UI_
             bDivision = bDiv;
             bMultiplication = bMult;
             bSubtraction = bSubs;
+            bSquareRoot = bSqrRoot;
+            bCubeRoot = bCube;
             if (bselect)
             {
                 //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
@@ -65,28 +71,28 @@ namespace Calculator__Forms__With_UI_
         {
             ValueTextBox.Text += "-";
             szText += "-";
-            ProcessAction(false, true, false, false);
+            ProcessAction(false, true, false, false, false, false);
         }
 
         private void Addition_Click(object sender, EventArgs e)
         {
             ValueTextBox.Text += "+";
             szText += "+";
-            ProcessAction(true, false, false, false);
+            ProcessAction(true, false, false, false, false, false);
         }
 
         private void Division_Click(object sender, EventArgs e)
         {
             ValueTextBox.Text += "/";
             szText += "/";
-            ProcessAction(false, false, true, false);
+            ProcessAction(false, false, true, false, false, false);
         }
 
         private void Multiplication_Click(object sender, EventArgs e)
         {
             ValueTextBox.Text += "x";
             szText += "x";
-            ProcessAction(false, false, false, true);
+            ProcessAction(false, false, false, true, false, false);
         }
 
         private void ValueTextBox_TextChanged(object sender, EventArgs e)
@@ -114,20 +120,20 @@ namespace Calculator__Forms__With_UI_
             }
             else if (e.KeyChar == '+')
             {
-                ProcessAction(true, false, false, false, false);
+                ProcessAction(true, false, false, false, false, false, false);
             }
             else if (e.KeyChar == '-')
             {
-                ProcessAction(false, true, false, false, false);
+                ProcessAction(false, true, false, false, false, false, false);
 
             }
             else if (e.KeyChar == 'x')
             {
-                ProcessAction(false, false, false, true, false);
+                ProcessAction(false, false, false, true, false, false, false);
             }
             else if (e.KeyChar == '/')
             {
-                ProcessAction(false, false, true, false, false);
+                ProcessAction(false, false, true, false, false, false, false);
             }
             if (e.KeyChar == '=')
             {
@@ -184,10 +190,7 @@ namespace Calculator__Forms__With_UI_
         private void button1_Click(object sender, EventArgs e)
         {
             //user clicked on the Reset button, so reset everything
-            szText = "";
-            ValueTextBox.Text = "";
-            iNumber = 0;
-            iDigit = 0;
+            ResetAll();
 
 
         }
@@ -223,15 +226,55 @@ namespace Calculator__Forms__With_UI_
                 }
                 iNumber /= iDigit;
             }
-            iDigit = iNumber;
-            iNumber = 0;
-            //convert the result into a text, because the edit box take only characters, not numbers
-            szText += iDigit.ToString(); ;
-            ValueTextBox.Text = szText;
+            else if (bSquareRoot)
+            {
+                dNumber = Math.Sqrt(iDigit);
+                szText += dNumber.ToString(); ;
+                ValueTextBox.Text = szText;
+            }
+            else if (bCubeRoot)
+            {
+                dNumber = Math.Pow(iDigit, 1.0 / 3.0);
+                szText += dNumber.ToString(); ;
+                ValueTextBox.Text = szText;
+            }
+            else
+            {
+                iDigit = iNumber;
+                iNumber = 0;
+                //convert the result into a text, because the edit box take only characters, not numbers
+                szText += iDigit.ToString(); ;
+                ValueTextBox.Text = szText;
+            }
             //here we need to move the mouse cursor to the end of the text in the edit box, so that when the types more characters, they are written where the cursor is , at the end of the existing text
             ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
             ValueTextBox.SelectionLength = 0;
             ValueTextBox.Focus();
+        }
+
+        private void SquareRoot_Click(object sender, EventArgs e)
+        {
+            ResetAll();
+            ValueTextBox.Text += "sqr_root ";
+            szText += "sqr_root ";
+            ProcessAction(false, false, false, false, true, false);
+        }
+
+        private void SquareRoot3_Click(object sender, EventArgs e)
+        {
+            ResetAll();
+            ValueTextBox.Text += "cube_root ";
+            szText += "cube_root ";
+            ProcessAction(false, false, false, false, false, true);
+
+        }
+        void ResetAll()
+        {
+            szText = "";
+            ValueTextBox.Text = "";
+            iNumber = 0;
+            iDigit = 0;
+            dNumber = 0;
         }
     }
 }
