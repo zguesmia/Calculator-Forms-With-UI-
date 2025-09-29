@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -15,12 +14,19 @@ namespace Calculator__Forms__With_UI_
     public partial class CalculatorApp : Form
     {
         public int iCurrentValue = 0;
-        public int iTotal = -1;
+        public int iTotal = 0;
         public bool newEntry = true;
         public bool bAddition = false;
         public bool bSubtraction = false;
         public bool bMultiplication = false;
         public bool bDivision = false;
+        public bool bSquareRoot = false;
+        public bool bCubeRoot = false;
+        string szText;
+        int iDigit;
+        int iNumber;
+        double dNumber;
+        
 
         //on the first variable, which is double, it is a placeholder for the result 
         //and ongoing calculations
@@ -29,251 +35,262 @@ namespace Calculator__Forms__With_UI_
 
         // Adding event handlers for arithmetic buttons
 
-        //
+        /*
+    Addition.Click += ArithmeticButton_Click;
+    Subtraction.Click += ArithmeticButton_Click;
+    Multiplication.Click += ArithmeticButton_Click;
+    Divison.Click += ArithmeticButton_Click;
+        */
 
         public CalculatorApp()
         {
             InitializeComponent();
-            this.ActiveControl = ValueTextBox;
-            Reset();
         }
-
-        void Reset()
+        void  ProcessAction(bool bAdd, bool bSubs, bool bDiv, bool bMult, bool bSqrRoot, bool bCube,bool bselect = true)
         {
-            bAddition = false;
-            bSubtraction = false;
-            bMultiplication = false;
-            bDivision = false;
-            ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
-            ValueTextBox.SelectionLength = 0;
-            ValueTextBox.Focus();
-        }
-        private void ApplyPendingOperation()
-        {
-            if (iTotal == -1)
+            //I created this function, to replace common code. Very good practice to replace common code by a function, or method.
+            iNumber = iDigit;
+            iDigit = 0;
+            bAddition = bAdd;
+            bDivision = bDiv;
+            bMultiplication = bMult;
+            bSubtraction = bSubs;
+            bSquareRoot = bSqrRoot;
+            bCubeRoot = bCube;
+            if (bselect)
             {
-                iTotal = iCurrentValue; // first number becomes the running total
-                return;
+                //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
+                //to the end of the text in the edit box, so that when the types more characters, they are written where the cursor is , at the end of the existing text
+                ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
+                ValueTextBox.SelectionLength = 0;
+                ValueTextBox.Focus();
             }
-
-            if (bAddition) iTotal += iCurrentValue;
-            else if (bSubtraction) iTotal -= iCurrentValue;
-            else if (bMultiplication) iTotal *= iCurrentValue;
-            else if (bDivision)
-            {
-                if (iCurrentValue == 0)
-                {
-                    MessageBox.Show("Cannot divide by zero!");
-                    return;
-                }
-                iTotal /= iCurrentValue;
-            }
-        }
-
-        private void ClearOps()
-        {
-            bAddition = bSubtraction = bMultiplication = bDivision = false;
         }
 
         private void Subtraction_Click(object sender, EventArgs e)
         {
-
-            
-            ApplyPendingOperation();
-            ValueTextBox.Text = iTotal.ToString() + " * ";
-            ClearOps();
-            bSubtraction = true;
-            iCurrentValue = 0;
-            
-
-
+            ValueTextBox.Text += "-";
+            szText += "-";
+            ProcessAction(false, true, false, false, false, false);
         }
 
         private void Addition_Click(object sender, EventArgs e)
         {
-            
-            ApplyPendingOperation();
-            ValueTextBox.Text = iTotal.ToString() + " * ";
-            ClearOps();
-            bAddition = true;
-            iCurrentValue = 0;
-            
-
+            ValueTextBox.Text += "+";
+            szText += "+";
+            ProcessAction(true, false, false, false, false, false);
         }
 
         private void Division_Click(object sender, EventArgs e)
         {
-            
-         ApplyPendingOperation();
-         ValueTextBox.Text = iTotal.ToString() + " * ";
-         ClearOps();
-         bDivision = true;
-         iCurrentValue = 0;
-                        
+            ValueTextBox.Text += "/";
+            szText += "/";
+            ProcessAction(false, false, true, false, false, false);
         }
 
         private void Multiplication_Click(object sender, EventArgs e)
         {
-            
-            ApplyPendingOperation();
-            ValueTextBox.Text = iTotal.ToString() + " * ";
-            ClearOps();
-            bMultiplication = true;
-            iCurrentValue = 0;
-            
+            ValueTextBox.Text += "x";
+            szText += "x";
+            ProcessAction(false, false, false, true, false, false);
         }
 
+        private void ValueTextBox_TextChanged(object sender, EventArgs e)
+        {
 
-
-
-
+        }
 
         private void ValueTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            // if the user enters any characters different form a number, + ,-,x,/back space or space we show an error box
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '+' && e.KeyChar != '-' 
+                && e.KeyChar != 'x' && e.KeyChar != 'X' && e.KeyChar != '/' && e.KeyChar != '=' 
+                && e.KeyChar != '\b' //back space
+                && e.KeyChar != '\n' // enter key
+                && e.KeyChar != '\r' // carriage retuen key
+                 && e.KeyChar != 0x20) //space
             {
                 e.Handled = true;
+                MessageBox.Show("Please enter a valid character");
                 return;
             }
+                szText += e.KeyChar;
+            szText.Trim();
             if (char.IsDigit(e.KeyChar))
             {
-                int d = e.KeyChar - '0';
+                // for example,  here a character such as "2" does not have a value of 2. it has a value of 50. You will need to substract it by 48, wich is the value of character '0' (see ASCII table for all values)
+                if (iDigit > 0)
+                {
+                    iDigit = (e.KeyChar - '0')  + (iDigit * 10); // for example, if the user presses 2 after he already pressed 1, 2 will replace 1 in the edit box. in order for the edit box to show 12, you need to add 1x10 to 2, which is 12
+                }
+                else
+                {
+                    iDigit = e.KeyChar - '0';
 
-                //Only build the number being typed
-                iCurrentValue = iCurrentValue * 10 + d;
+
+                }
+            }
+            else if (e.KeyChar == '+')
+            {
+                ProcessAction(true, false, false, false, false, false, false);
+            }
+            else if (e.KeyChar == '-')
+            {
+                ProcessAction(false, true, false, false, false, false, false);
 
             }
+            else if (e.KeyChar == 'x')
+            {
+                ProcessAction(false, false, false, true, false, false, false);
+            }
+            else if (e.KeyChar == '/')
+            {
+                ProcessAction(false, false, true, false, false, false, false);
+            }
+            if (e.KeyChar == '=' || e.KeyChar == '\n' || e.KeyChar == '\r')
+            {
+                // user pressed typed the equal sign. iDigit is whatever he typed before the equal sign, and iNumber is the result of the operation (+,-,x or /)
+                if (bAddition)
+                {
+                    iNumber += iDigit;
+                }
+                else if (bMultiplication)
+                {
+                    iNumber *= iDigit;
+                }
+                else if (bDivision)
+                {
+                    if(iDigit == 0)
+                    {
+                        // remember never divide by 0!! . If the user tries that, we show a message and return, otherwise the app will crash.
+                        MessageBox.Show("Cannot devide by 0");
+                        return;
 
-            Reset();
+                    }
+                    iNumber /= iDigit;
+                }
+                else if(bSubtraction)
+                {
+                    iNumber -= iDigit;
+
+                }
+                //now that we got the result we save into the iDigit variable for subsequent operations, and reset iNumber
+                iDigit = iNumber;
+                iNumber = 0;
+                if(e.KeyChar == '\n' || e.KeyChar == '\r')
+                {
+                    szText += "=";
+                }
+                szText += iDigit.ToString(); ;
+                ValueTextBox.Text = szText;
+                e.Handled = true;
+                ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
+                ValueTextBox.SelectionLength = 0;
+                ValueTextBox.Focus();
+
+            }
+            //    if (char.IsDigit(e.KeyChar))
+            //{
+            //    iDigit = 
+            //    //e.Handled = true;
+            //    if (bAddition)
+            //    {
+            //        iTotal += e.KeyChar;
+
+            //    }
+
+            //}
+           
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //user clicked on the Reset button, so reset everything
+            ResetAll();
+
 
         }
 
         private void EqualOperator_Click(object sender, EventArgs e)
         {
-            // If no total yet but user typed a number, seed iTotal with it.
-            if (iTotal == -1 && iCurrentValue != 0)
+
+            ValueTextBox.Text += "=";
+            szText += "=";
+            if (bAddition)
             {
-                iTotal = iCurrentValue;
+                //user clicked on '+', add
+                iNumber += iDigit;
+            }
+            else if (bMultiplication)
+            {
+                //user clicked on 'x', multiply
+                iNumber *= iDigit;
+            }
+            else if (bSubtraction)
+            {
+                //user clicked on '-', substract
+                iNumber -= iDigit;
+            }
+            else if (bDivision)
+            {
+                //user clicked on '/', divide but check first that he did not enter zero, a no no
+                if (iDigit == 0)
+                {
+                    MessageBox.Show("Cannot devide by 0");
+                    return;
+
+                }
+                iNumber /= iDigit;
+            }
+            else if (bSquareRoot)
+            {
+                dNumber = Math.Sqrt(iDigit);
+                szText += dNumber.ToString(); ;
+                ValueTextBox.Text = szText;
+            }
+            else if (bCubeRoot)
+            {
+                dNumber = Math.Pow(iDigit, 1.0 / 3.0);
+                szText += dNumber.ToString(); ;
+                ValueTextBox.Text = szText;
             }
             else
             {
-                // Finish whatever operation is pending using the number just typed.
-                ApplyPendingOperation();
+                iDigit = iNumber;
+                iNumber = 0;
+                //convert the result into a text, because the edit box take only characters, not numbers
+                szText += iDigit.ToString(); ;
+                ValueTextBox.Text = szText;
             }
-
-            // Show the result (simple display – no " = " suffix so chaining stays clean)
-            ValueTextBox.Text = iTotal.ToString();
-
-            // Prepare for next calculation: keep iTotal, clear op flags, and reset current typing buffer.
-            ClearOps();
-            iCurrentValue = 0;
-
-        }
-
-        private void ValueTextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Delete)
-            {
-                bAddition = false;
-                bSubtraction = false;
-                bMultiplication = false;
-                bDivision = false;
-                iTotal = -1;
-            }
-        }
-
-        private void Button1_Click(object sender, EventArgs e)
-        {
-            ValueTextBox.Text = "";
-            iCurrentValue = 0;
-            iTotal = -1;
-            Reset();
-
-        }
-
-
-        private void One_Click(object sender, EventArgs e)
-        {
-            iCurrentValue = iCurrentValue * 10 + 1;
-            ValueTextBox.Text = ValueTextBox.Text += "1";
-        }
-
-        private void Two_Click(object sender, EventArgs e)
-        {
-            iCurrentValue = iCurrentValue * 10 + 2;
-            ValueTextBox.Text += "2";
-        }
-
-        private void Three_Click(object sender, EventArgs e)
-        {
-            iCurrentValue = iCurrentValue * 10 + 3;
-            ValueTextBox.Text += "3";
-        }
-
-        private void Four_Click(object sender, EventArgs e)
-        {
-            iCurrentValue = iCurrentValue * 10 + 4;
-            ValueTextBox.Text = ValueTextBox.Text += "4";
-        }
-
-        private void Five_Click(object sender, EventArgs e)
-        {
-            iCurrentValue = iCurrentValue * 10 + 5;
-            ValueTextBox.Text += "5";
-        }
-
-        private void Six_Click(object sender, EventArgs e)
-        {
-            iCurrentValue = iCurrentValue * 10 + 6;
-            ValueTextBox.Text += "6";
-        }
-
-        private void Seven_Click(object sender, EventArgs e)
-        {
-            iCurrentValue = iCurrentValue * 10 + 7;
-            ValueTextBox.Text += "7";
-        }
-        //Make sure to upload to github! (offline mode, 8/22/2024)
-        private void Eight_Click(object sender, EventArgs e)
-        {
-            iCurrentValue = iCurrentValue * 10 + 8;
-            ValueTextBox.Text += "8";
-        }
-
-        private void Nine_Click(object sender, EventArgs e)
-        {
-            iCurrentValue = iCurrentValue * 10 + 9;
-            ValueTextBox.Text += "9";
+            //here we need to move the mouse cursor to the end of the text in the edit box, so that when the types more characters, they are written where the cursor is , at the end of the existing text
+            ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
+            ValueTextBox.SelectionLength = 0;
+            ValueTextBox.Focus();
         }
 
         private void SquareRoot_Click(object sender, EventArgs e)
         {
-            int iCurrentValue = int.Parse(ValueTextBox.Text);
-            iCurrentValue = (int)Math.Sqrt(iCurrentValue);
-            ValueTextBox.Text = iCurrentValue.ToString();
+            ResetAll();
+            ValueTextBox.Text += "sqr_root ";
+            szText += "sqr_root ";
+            ProcessAction(false, false, false, false, true, false);
         }
 
         private void SquareRoot3_Click(object sender, EventArgs e)
         {
-            int iCurrentValue = int.Parse(ValueTextBox.Text);
-            iCurrentValue = (int)Math.Pow(iCurrentValue, 1.0 / 3.0);
-            ValueTextBox.Text = iCurrentValue.ToString();
-        }
+            ResetAll();
+            ValueTextBox.Text += "cube_root ";
+            szText += "cube_root ";
+            ProcessAction(false, false, false, false, false, true);
 
-        private void Percentage_Click(object sender, EventArgs e)
-        {
-            
-            int iCurrentValue = int.Parse(ValueTextBox.Text);
-            iCurrentValue = iCurrentValue / 100;
-            ValueTextBox.Text = iCurrentValue.ToString();
-            
         }
-
-        private void Zero_Click(object sender, EventArgs e)
+        void ResetAll()
         {
-            iCurrentValue = iCurrentValue * 10 + 0;
-            ValueTextBox.Text += "0";
+            szText = "";
+            ValueTextBox.Text = "";
+            iNumber = 0;
+            iDigit = 0;
+            dNumber = 0;
         }
     }
 }
