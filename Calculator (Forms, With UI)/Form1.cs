@@ -23,7 +23,6 @@ namespace Calculator__Forms__With_UI_
         string szText;
         int iDigit;
         int iNumber;
-        int iwholeNumber;
 
         //on the first variable, which is double, it is a placeholder for the result 
         //and ongoing calculations
@@ -45,6 +44,7 @@ namespace Calculator__Forms__With_UI_
         }
         void  ProcessAction(bool bAdd, bool bSubs, bool bDiv, bool bMult, bool bselect = true)
         {
+            //I created this function, to replace common code. Very good practice to replace common code by a function, or method.
             iNumber = iDigit;
             iDigit = 0;
             bAddition = bAdd;
@@ -53,6 +53,8 @@ namespace Calculator__Forms__With_UI_
             bSubtraction = bSubs;
             if (bselect)
             {
+                //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
+                //to the end of the text in the edit box, so that when the types more characters, they are written where the cursor is , at the end of the existing text
                 ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
                 ValueTextBox.SelectionLength = 0;
                 ValueTextBox.Focus();
@@ -98,9 +100,10 @@ namespace Calculator__Forms__With_UI_
             szText.Trim();
             if (char.IsDigit(e.KeyChar))
             {
+                // for example,  here a character such as "2" does not have a value of 2. it has a value of 50. You will need to substract it by 48, wich is the value of character '0' (see ASCII table for all values)
                 if (iDigit > 0)
                 {
-                    iDigit = (e.KeyChar - '0')  +(iDigit * 10);
+                    iDigit = (e.KeyChar - '0')  + (iDigit * 10); // for example, if the user presses 2 after he already pressed 1, 2 will replace 1 in the edit box. in order for the edit box to show 12, you need to add 1x10 to 2, which is 12
                 }
                 else
                 {
@@ -128,7 +131,7 @@ namespace Calculator__Forms__With_UI_
             }
             if (e.KeyChar == '=')
             {
-                int iResul = 0;
+                // user pressed typed the equal sign. iDigit is whatever he typed before the equal sign, and iNumber is the result of the operation (+,-,x or /)
                 if (bAddition)
                 {
                     iNumber += iDigit;
@@ -141,6 +144,7 @@ namespace Calculator__Forms__With_UI_
                 {
                     if(iDigit == 0)
                     {
+                        // remember never divide by 0!! . If the user tries that, we show a message and return, otherwise the app will crash.
                         MessageBox.Show("Cannot devide by 0");
                         return;
 
@@ -152,10 +156,10 @@ namespace Calculator__Forms__With_UI_
                     iNumber -= iDigit;
 
                 }
-                iwholeNumber = iNumber;
+                //now that we got the result we save into the iDigit variable for subsequent operations, and reset iNumber
+                iDigit = iNumber;
                 iNumber = 0;
-                iDigit = iwholeNumber;
-                szText += iwholeNumber.ToString(); ;
+                szText += iDigit.ToString(); ;
                 ValueTextBox.Text = szText;
                 e.Handled = true;
                 ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
@@ -179,6 +183,7 @@ namespace Calculator__Forms__With_UI_
 
         private void button1_Click(object sender, EventArgs e)
         {
+            //user clicked on the Reset button, so reset everything
             szText = "";
             ValueTextBox.Text = "";
             iNumber = 0;
@@ -194,18 +199,22 @@ namespace Calculator__Forms__With_UI_
             szText += "=";
             if (bAddition)
             {
+                //user clicked on '+', add
                 iNumber += iDigit;
             }
             else if (bMultiplication)
             {
+                //user clicked on 'x', multiply
                 iNumber *= iDigit;
             }
             else if (bSubtraction)
             {
+                //user clicked on '-', substract
                 iNumber -= iDigit;
             }
             else if (bDivision)
             {
+                //user clicked on '/', divide but check first that he did not enter zero, a no no
                 if (iDigit == 0)
                 {
                     MessageBox.Show("Cannot devide by 0");
@@ -214,11 +223,12 @@ namespace Calculator__Forms__With_UI_
                 }
                 iNumber /= iDigit;
             }
-            iwholeNumber = iNumber;
+            iDigit = iNumber;
             iNumber = 0;
-            iDigit = iwholeNumber;
-            szText += iwholeNumber.ToString(); ;
+            //convert the result into a text, because the edit box take only characters, not numbers
+            szText += iDigit.ToString(); ;
             ValueTextBox.Text = szText;
+            //here we need to move the mouse cursor to the end of the text in the edit box, so that when the types more characters, they are written where the cursor is , at the end of the existing text
             ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
             ValueTextBox.SelectionLength = 0;
             ValueTextBox.Focus();
