@@ -72,17 +72,12 @@ namespace Calculator__Forms__With_UI_
             
             ValueTextBox.Text += "-";
             szText += "-";
-            //ProcessAction(false, true, false, false, false, false);
+            ProcessAction(false, true, false, false, false, false);
 
             bool bselect =  true;
             iNumber = iDigit;
             iDigit = 0;
-            bAddition = false;
-            bDivision = false;
-            bMultiplication = false;
-            bSubtraction = true;
-            bSquareRoot = false;
-            bCubeRoot = false;
+
             if (bselect)
             {
                 //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
@@ -97,17 +92,12 @@ namespace Calculator__Forms__With_UI_
         {
             ValueTextBox.Text += "+";
             szText += "+";
-            //ProcessAction(true, false, false, false, false, false);
+            ProcessAction(true, false, false, false, false, false);
 
             bool bselect =  true;
             iNumber = iDigit;
             iDigit = 0;
-            bAddition = true;
-            bDivision = false;
-            bMultiplication = false;
-            bSubtraction = false;
-            bSquareRoot = false;
-            bCubeRoot = false;
+
             if (bselect)
             {
                 //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
@@ -122,17 +112,12 @@ namespace Calculator__Forms__With_UI_
         {
             ValueTextBox.Text += "/";
             szText += "/";
-            //ProcessAction(false, false, true, false, false, false);
+            ProcessAction(false, false, true, false, false, false);
 
             bool bselect =  true;
             iNumber = iDigit;
             iDigit = 0;
-            bAddition = false;
-            bDivision = true;
-            bMultiplication = false;
-            bSubtraction = false;
-            bSquareRoot = false;
-            bCubeRoot = false;
+
             if (bselect)
             {
                 //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
@@ -148,17 +133,12 @@ namespace Calculator__Forms__With_UI_
         {
             ValueTextBox.Text += "x";
             szText += "x";
-           // ProcessAction(false, false, false, true, false, false);
+            ProcessAction(false, false, false, true, false, false);
 
 
             iNumber = iDigit;
             iDigit = 0;
-            bAddition = false;
-            bDivision = false;
-            bMultiplication = true;
-            bSubtraction = false;
-            bSquareRoot = false;
-            bCubeRoot = false;
+
   
             //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
             //to the end of the text in the edit box, so that when the types more characters, they are written where the cursor is , at the end of the existing text
@@ -207,16 +187,11 @@ namespace Calculator__Forms__With_UI_
             }
             else if (e.KeyChar == '+')
             {
-               // ProcessAction(true, false, false, false, false, false);
+                ProcessAction(true, false, false, false, false, false);
 
                 iNumber = iDigit;
                 iDigit = 0;
-                bAddition = true;
-                bDivision = false;
-                bMultiplication = false;
-                bSubtraction = false;
-                bSquareRoot = false;
-                bCubeRoot = false;
+
  
                 //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
                 //to the end of the text in the edit box, so that when the types more characters, they are written where the cursor is , at the end of the existing text
@@ -465,5 +440,10 @@ namespace Calculator__Forms__With_UI_
             ValueTextBox.SelectionLength = 0;
             ValueTextBox.Focus();
         }
+
+        //private void CalculatorApp_Load(object sender, EventArgs e)
+       // {
+
+       // }
     }
 }
