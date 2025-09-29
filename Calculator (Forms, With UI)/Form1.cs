@@ -102,7 +102,19 @@ namespace Calculator__Forms__With_UI_
 
         private void ValueTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            szText += e.KeyChar;
+            // if the user enters any characters different form a number, + ,-,x,/back space or space we show an error box
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '+' && e.KeyChar != '-' 
+                && e.KeyChar != 'x' && e.KeyChar != 'X' && e.KeyChar != '/' && e.KeyChar != '=' 
+                && e.KeyChar != '\b' //back space
+                && e.KeyChar != '\n' // enter key
+                && e.KeyChar != '\r' // carriage retuen key
+                 && e.KeyChar != 0x20) //space
+            {
+                e.Handled = true;
+                MessageBox.Show("Please enter a valid character");
+                return;
+            }
+                szText += e.KeyChar;
             szText.Trim();
             if (char.IsDigit(e.KeyChar))
             {
@@ -135,7 +147,7 @@ namespace Calculator__Forms__With_UI_
             {
                 ProcessAction(false, false, true, false, false, false, false);
             }
-            if (e.KeyChar == '=')
+            if (e.KeyChar == '=' || e.KeyChar == '\n' || e.KeyChar == '\r')
             {
                 // user pressed typed the equal sign. iDigit is whatever he typed before the equal sign, and iNumber is the result of the operation (+,-,x or /)
                 if (bAddition)
@@ -165,6 +177,10 @@ namespace Calculator__Forms__With_UI_
                 //now that we got the result we save into the iDigit variable for subsequent operations, and reset iNumber
                 iDigit = iNumber;
                 iNumber = 0;
+                if(e.KeyChar == '\n' || e.KeyChar == '\r')
+                {
+                    szText += "=";
+                }
                 szText += iDigit.ToString(); ;
                 ValueTextBox.Text = szText;
                 e.Handled = true;
