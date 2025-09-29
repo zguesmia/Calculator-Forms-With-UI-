@@ -43,7 +43,7 @@
             // 
             this.Multiplication.Font = new System.Drawing.Font("Times New Roman", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Multiplication.Location = new System.Drawing.Point(17, 327);
-            this.Multiplication.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Multiplication.Margin = new System.Windows.Forms.Padding(2);
             this.Multiplication.Name = "Multiplication";
             this.Multiplication.Size = new System.Drawing.Size(49, 47);
             this.Multiplication.TabIndex = 0;
@@ -55,7 +55,7 @@
             // 
             this.Division.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Division.Location = new System.Drawing.Point(17, 263);
-            this.Division.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Division.Margin = new System.Windows.Forms.Padding(2);
             this.Division.Name = "Division";
             this.Division.Size = new System.Drawing.Size(49, 47);
             this.Division.TabIndex = 2;
@@ -67,7 +67,7 @@
             // 
             this.Addition.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Addition.Location = new System.Drawing.Point(17, 198);
-            this.Addition.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Addition.Margin = new System.Windows.Forms.Padding(2);
             this.Addition.Name = "Addition";
             this.Addition.Size = new System.Drawing.Size(49, 47);
             this.Addition.TabIndex = 3;
@@ -79,7 +79,7 @@
             // 
             this.Subtraction.Font = new System.Drawing.Font("Times New Roman", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Subtraction.Location = new System.Drawing.Point(17, 132);
-            this.Subtraction.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Subtraction.Margin = new System.Windows.Forms.Padding(2);
             this.Subtraction.Name = "Subtraction";
             this.Subtraction.Size = new System.Drawing.Size(49, 47);
             this.Subtraction.TabIndex = 4;
@@ -91,7 +91,7 @@
             // 
             this.ValueTextBox.Font = new System.Drawing.Font("Times New Roman", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ValueTextBox.Location = new System.Drawing.Point(26, 10);
-            this.ValueTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ValueTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.ValueTextBox.Name = "ValueTextBox";
             this.ValueTextBox.Size = new System.Drawing.Size(456, 61);
             this.ValueTextBox.TabIndex = 5;
@@ -104,7 +104,7 @@
             this.EqualOperator.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.EqualOperator.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.EqualOperator.Location = new System.Drawing.Point(432, 327);
-            this.EqualOperator.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.EqualOperator.Margin = new System.Windows.Forms.Padding(2);
             this.EqualOperator.Name = "EqualOperator";
             this.EqualOperator.Size = new System.Drawing.Size(49, 47);
             this.EqualOperator.TabIndex = 6;
@@ -116,23 +116,25 @@
             // 
             this.SquareRoot.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SquareRoot.Location = new System.Drawing.Point(86, 132);
-            this.SquareRoot.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SquareRoot.Margin = new System.Windows.Forms.Padding(2);
             this.SquareRoot.Name = "SquareRoot";
             this.SquareRoot.Size = new System.Drawing.Size(49, 47);
             this.SquareRoot.TabIndex = 7;
             this.SquareRoot.Text = "SqRt/2";
             this.SquareRoot.UseVisualStyleBackColor = true;
+            this.SquareRoot.Click += new System.EventHandler(this.SquareRoot_Click_1);
             // 
             // SquareRoot3
             // 
             this.SquareRoot3.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SquareRoot3.Location = new System.Drawing.Point(86, 198);
-            this.SquareRoot3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SquareRoot3.Margin = new System.Windows.Forms.Padding(2);
             this.SquareRoot3.Name = "SquareRoot3";
             this.SquareRoot3.Size = new System.Drawing.Size(49, 47);
             this.SquareRoot3.TabIndex = 8;
             this.SquareRoot3.Text = "SqRt/3";
             this.SquareRoot3.UseVisualStyleBackColor = true;
+            this.SquareRoot3.Click += new System.EventHandler(this.SquareRoot3_Click_1);
             // 
             // button1
             // 
@@ -160,7 +162,7 @@
             this.Controls.Add(this.Division);
             this.Controls.Add(this.Multiplication);
             this.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "CalculatorApp";
             this.Text = "Calculator";
             this.ResumeLayout(false);

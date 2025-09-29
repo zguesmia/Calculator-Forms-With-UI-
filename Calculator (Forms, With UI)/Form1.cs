@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace Calculator__Forms__With_UI_
 {
@@ -46,7 +47,7 @@ namespace Calculator__Forms__With_UI_
         {
             InitializeComponent();
         }
-        void  ProcessAction(bool bAdd, bool bSubs, bool bDiv, bool bMult, bool bSqrRoot, bool bCube,bool bselect = true)
+        void  ProcessAction(bool bAdd, bool bSubs, bool bDiv, bool bMult, bool bSqrRoot, bool bCube)
         {
             //I created this function, to replace common code. Very good practice to replace common code by a function, or method.
             iNumber = iDigit;
@@ -57,6 +58,31 @@ namespace Calculator__Forms__With_UI_
             bSubtraction = bSubs;
             bSquareRoot = bSqrRoot;
             bCubeRoot = bCube;
+ 
+            //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
+            //to the end of the text in the edit box, so that when the types more characters, they are written where the cursor is , at the end of the existing text
+            ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
+            ValueTextBox.SelectionLength = 0;
+            ValueTextBox.Focus();
+            
+        }
+
+        private void Subtraction_Click(object sender, EventArgs e)
+        {
+            
+            ValueTextBox.Text += "-";
+            szText += "-";
+            //ProcessAction(false, true, false, false, false, false);
+
+            bool bselect =  true;
+            iNumber = iDigit;
+            iDigit = 0;
+            bAddition = false;
+            bDivision = false;
+            bMultiplication = false;
+            bSubtraction = true;
+            bSquareRoot = false;
+            bCubeRoot = false;
             if (bselect)
             {
                 //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
@@ -67,32 +93,81 @@ namespace Calculator__Forms__With_UI_
             }
         }
 
-        private void Subtraction_Click(object sender, EventArgs e)
-        {
-            ValueTextBox.Text += "-";
-            szText += "-";
-            ProcessAction(false, true, false, false, false, false);
-        }
-
         private void Addition_Click(object sender, EventArgs e)
         {
             ValueTextBox.Text += "+";
             szText += "+";
-            ProcessAction(true, false, false, false, false, false);
+            //ProcessAction(true, false, false, false, false, false);
+
+            bool bselect =  true;
+            iNumber = iDigit;
+            iDigit = 0;
+            bAddition = true;
+            bDivision = false;
+            bMultiplication = false;
+            bSubtraction = false;
+            bSquareRoot = false;
+            bCubeRoot = false;
+            if (bselect)
+            {
+                //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
+                //to the end of the text in the edit box, so that when the types more characters, they are written where the cursor is , at the end of the existing text
+                ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
+                ValueTextBox.SelectionLength = 0;
+                ValueTextBox.Focus();
+            }
         }
 
         private void Division_Click(object sender, EventArgs e)
         {
             ValueTextBox.Text += "/";
             szText += "/";
-            ProcessAction(false, false, true, false, false, false);
+            //ProcessAction(false, false, true, false, false, false);
+
+            bool bselect =  true;
+            iNumber = iDigit;
+            iDigit = 0;
+            bAddition = false;
+            bDivision = true;
+            bMultiplication = false;
+            bSubtraction = false;
+            bSquareRoot = false;
+            bCubeRoot = false;
+            if (bselect)
+            {
+                //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
+                //to the end of the text in the edit box, so that when the types more characters, they are written where the cursor is , at the end of the existing text
+                ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
+                ValueTextBox.SelectionLength = 0;
+                ValueTextBox.Focus();
+            }
         }
+    
 
         private void Multiplication_Click(object sender, EventArgs e)
         {
             ValueTextBox.Text += "x";
             szText += "x";
-            ProcessAction(false, false, false, true, false, false);
+           // ProcessAction(false, false, false, true, false, false);
+
+
+            iNumber = iDigit;
+            iDigit = 0;
+            bAddition = false;
+            bDivision = false;
+            bMultiplication = true;
+            bSubtraction = false;
+            bSquareRoot = false;
+            bCubeRoot = false;
+  
+            //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
+            //to the end of the text in the edit box, so that when the types more characters, they are written where the cursor is , at the end of the existing text
+            ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
+            ValueTextBox.SelectionLength = 0;
+            ValueTextBox.Focus();
+  
+
+
         }
 
         private void ValueTextBox_TextChanged(object sender, EventArgs e)
@@ -132,20 +207,85 @@ namespace Calculator__Forms__With_UI_
             }
             else if (e.KeyChar == '+')
             {
-                ProcessAction(true, false, false, false, false, false, false);
+               // ProcessAction(true, false, false, false, false, false);
+
+                iNumber = iDigit;
+                iDigit = 0;
+                bAddition = true;
+                bDivision = false;
+                bMultiplication = false;
+                bSubtraction = false;
+                bSquareRoot = false;
+                bCubeRoot = false;
+ 
+                //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
+                //to the end of the text in the edit box, so that when the types more characters, they are written where the cursor is , at the end of the existing text
+                ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
+                ValueTextBox.SelectionLength = 0;
+                ValueTextBox.Focus();
+                
             }
             else if (e.KeyChar == '-')
             {
-                ProcessAction(false, true, false, false, false, false, false);
+               // ProcessAction(false, true, false, false, false, false);
+
+                iNumber = iDigit;
+                iDigit = 0;
+                bAddition = false;
+                bDivision = false;
+                bMultiplication = false;
+                bSubtraction = true;
+                bSquareRoot = false;
+                bCubeRoot = false;
+   
+                //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
+                //to the end of the text in the edit box, so that when the types more characters, they are written where the cursor is , at the end of the existing text
+                ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
+                ValueTextBox.SelectionLength = 0;
+                ValueTextBox.Focus();
+                
 
             }
             else if (e.KeyChar == 'x')
             {
-                ProcessAction(false, false, false, true, false, false, false);
+              //  ProcessAction(false, false, false, true, false, false);
+
+                iNumber = iDigit;
+                iDigit = 0;
+                bAddition = false;
+                bDivision = false;
+                bMultiplication = true;
+                bSubtraction = false;
+                bSquareRoot = false;
+                bCubeRoot = false;
+ 
+                //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
+                //to the end of the text in the edit box, so that when the types more characters, they are written where the cursor is , at the end of the existing text
+                ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
+                ValueTextBox.SelectionLength = 0;
+                ValueTextBox.Focus();
+                
             }
             else if (e.KeyChar == '/')
             {
-                ProcessAction(false, false, true, false, false, false, false);
+                //ProcessAction(false, false, true, false, false, false);
+
+  
+                iNumber = iDigit;
+                iDigit = 0;
+                bAddition = false;
+                bDivision = true;
+                bMultiplication = false;
+                bSubtraction = false;
+                bSquareRoot = false;
+                bCubeRoot = false;
+ 
+                //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
+                //to the end of the text in the edit box, so that when the types more characters, they are written where the cursor is , at the end of the existing text
+                ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
+                ValueTextBox.SelectionLength = 0;
+                ValueTextBox.Focus();
+                
             }
             if (e.KeyChar == '=' || e.KeyChar == '\n' || e.KeyChar == '\r')
             {
@@ -242,7 +382,7 @@ namespace Calculator__Forms__With_UI_
                 }
                 iNumber /= iDigit;
             }
-            else if (bSquareRoot)
+            if (bSquareRoot)
             {
                 dNumber = Math.Sqrt(iDigit);
                 szText += dNumber.ToString(); ;
@@ -268,22 +408,9 @@ namespace Calculator__Forms__With_UI_
             ValueTextBox.Focus();
         }
 
-        private void SquareRoot_Click(object sender, EventArgs e)
-        {
-            ResetAll();
-            ValueTextBox.Text += "sqr_root ";
-            szText += "sqr_root ";
-            ProcessAction(false, false, false, false, true, false);
-        }
+       
 
-        private void SquareRoot3_Click(object sender, EventArgs e)
-        {
-            ResetAll();
-            ValueTextBox.Text += "cube_root ";
-            szText += "cube_root ";
-            ProcessAction(false, false, false, false, false, true);
-
-        }
+     
         void ResetAll()
         {
             szText = "";
@@ -291,6 +418,52 @@ namespace Calculator__Forms__With_UI_
             iNumber = 0;
             iDigit = 0;
             dNumber = 0;
+        }
+
+        private void SquareRoot_Click_1(object sender, EventArgs e)
+        {
+            ResetAll();
+            ValueTextBox.Text += "sqr_root ";
+            szText += "sqr_root ";
+            //ProcessAction(false, false, false, false, true, false);
+
+            iNumber = iDigit;
+            iDigit = 0;
+            bAddition = false;
+            bDivision = false;
+            bMultiplication = false;
+            bSubtraction = false;
+            bSquareRoot = true;
+            bCubeRoot = false;
+
+            //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
+            //to the end of the text in the edit box, so that when the types more characters, they are written where the cursor is , at the end of the existing text
+            ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
+            ValueTextBox.SelectionLength = 0;
+            ValueTextBox.Focus();
+        }
+
+        private void SquareRoot3_Click_1(object sender, EventArgs e)
+        {
+            ResetAll();
+            ValueTextBox.Text += "cube_root ";
+            szText += "cube_root ";
+            // ProcessAction(false, false, false, false, false, true);
+
+            iNumber = iDigit;
+            iDigit = 0;
+            bAddition = false;
+            bDivision = false;
+            bMultiplication = false;
+            bSubtraction = false;
+            bSquareRoot = false;
+            bCubeRoot = true;
+
+            //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
+            //to the end of the text in the edit box, so that when the types more characters, they are written where the cursor is , at the end of the existing text
+            ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
+            ValueTextBox.SelectionLength = 0;
+            ValueTextBox.Focus();
         }
     }
 }
