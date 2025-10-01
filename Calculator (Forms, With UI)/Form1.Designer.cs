@@ -45,7 +45,7 @@
             this.Six = new System.Windows.Forms.Button();
             this.Seven = new System.Windows.Forms.Button();
             this.Eight = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.Nine = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Multiplication
@@ -165,6 +165,7 @@
             this.One.TabIndex = 10;
             this.One.Text = "1";
             this.One.UseVisualStyleBackColor = true;
+            this.One.Click += new System.EventHandler(this.One_Click);
             // 
             // Two
             // 
@@ -175,6 +176,7 @@
             this.Two.TabIndex = 11;
             this.Two.Text = "2";
             this.Two.UseVisualStyleBackColor = true;
+            this.Two.Click += new System.EventHandler(this.Two_Click);
             // 
             // Three
             // 
@@ -185,6 +187,7 @@
             this.Three.TabIndex = 12;
             this.Three.Text = "3";
             this.Three.UseVisualStyleBackColor = true;
+            this.Three.Click += new System.EventHandler(this.Three_Click);
             // 
             // Four
             // 
@@ -195,6 +198,7 @@
             this.Four.TabIndex = 13;
             this.Four.Text = "4";
             this.Four.UseVisualStyleBackColor = true;
+            this.Four.Click += new System.EventHandler(this.Four_Click);
             // 
             // Five
             // 
@@ -205,6 +209,7 @@
             this.Five.TabIndex = 14;
             this.Five.Text = "5";
             this.Five.UseVisualStyleBackColor = true;
+            this.Five.Click += new System.EventHandler(this.Five_Click);
             // 
             // Six
             // 
@@ -215,6 +220,7 @@
             this.Six.TabIndex = 15;
             this.Six.Text = "6";
             this.Six.UseVisualStyleBackColor = true;
+            this.Six.Click += new System.EventHandler(this.Six_Click);
             // 
             // Seven
             // 
@@ -225,6 +231,7 @@
             this.Seven.TabIndex = 16;
             this.Seven.Text = "7";
             this.Seven.UseVisualStyleBackColor = true;
+            this.Seven.Click += new System.EventHandler(this.Seven_Click);
             // 
             // Eight
             // 
@@ -235,16 +242,18 @@
             this.Eight.TabIndex = 17;
             this.Eight.Text = "8";
             this.Eight.UseVisualStyleBackColor = true;
+            this.Eight.Click += new System.EventHandler(this.Eight_Click);
             // 
-            // button2
+            // Nine
             // 
-            this.button2.Font = new System.Drawing.Font("Times New Roman", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(363, 324);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(65, 58);
-            this.button2.TabIndex = 18;
-            this.button2.Text = "9";
-            this.button2.UseVisualStyleBackColor = true;
+            this.Nine.Font = new System.Drawing.Font("Times New Roman", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Nine.Location = new System.Drawing.Point(363, 324);
+            this.Nine.Name = "Nine";
+            this.Nine.Size = new System.Drawing.Size(65, 58);
+            this.Nine.TabIndex = 18;
+            this.Nine.Text = "9";
+            this.Nine.UseVisualStyleBackColor = true;
+            this.Nine.Click += new System.EventHandler(this.Nine_Click);
             // 
             // CalculatorApp
             // 
@@ -252,7 +261,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(676, 481);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.Nine);
             this.Controls.Add(this.Eight);
             this.Controls.Add(this.Seven);
             this.Controls.Add(this.Six);
@@ -274,7 +283,6 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "CalculatorApp";
             this.Text = "Calculator";
-            this.Load += new System.EventHandler(this.CalculatorApp_Load);
             this.ResumeLayout(false);
 
         }
@@ -298,7 +306,7 @@
         private System.Windows.Forms.Button Six;
         private System.Windows.Forms.Button Seven;
         private System.Windows.Forms.Button Eight;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button Nine;
     }
 }
 

@@ -69,7 +69,8 @@ namespace Calculator__Forms__With_UI_
 
         private void Subtraction_Click(object sender, EventArgs e)
         {
-            
+
+            {
             ValueTextBox.Text += "-";
             szText += "-";
             ProcessAction(false, true, false, false, false, false);
@@ -78,13 +79,7 @@ namespace Calculator__Forms__With_UI_
             iNumber = iDigit;
             iDigit = 0;
 
-            if (bselect)
-            {
-                //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
-                //to the end of the text in the edit box, so that when the types more characters, they are written where the cursor is , at the end of the existing text
-                ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
-                ValueTextBox.SelectionLength = 0;
-                ValueTextBox.Focus();
+
             }
         }
 
@@ -400,7 +395,7 @@ namespace Calculator__Forms__With_UI_
             ResetAll();
             ValueTextBox.Text += "sqr_root ";
             szText += "sqr_root ";
-            //ProcessAction(false, false, false, false, true, false);
+            ProcessAction(false, false, false, false, true, false);
 
             iNumber = iDigit;
             iDigit = 0;
@@ -440,10 +435,76 @@ namespace Calculator__Forms__With_UI_
             ValueTextBox.SelectionLength = 0;
             ValueTextBox.Focus();
         }
+        public void NumberButtonClick(object sender, EventArgs e)
+        {
+            Button Btn = (Button)sender;
+            if (Btn.Text.Length != 1) return;
+            char Btnchar = Btn.Text[0];
+
+            if (!char.IsDigit(Btnchar)) return;
+          
+            int d = Btnchar - '0';
+
+
+            iCurrentValue = iCurrentValue * 10 + d;
+    
+            ValueTextBox.Text += Btnchar;
+
+
+            ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
+            ValueTextBox.SelectionLength = 0;
+            ValueTextBox.Focus();
+
+
+        }
+        private void One_Click(object sender, EventArgs e)
+        {
+            NumberButtonClick(sender, e);
+        }
+
+        private void Two_Click(object sender, EventArgs e)
+        {
+            NumberButtonClick(sender, e);
+        }
+
+        private void Three_Click(object sender, EventArgs e)
+        {
+            NumberButtonClick(sender, e);
+        }
+
+        private void Four_Click(object sender, EventArgs e)
+        {
+            NumberButtonClick(sender, e);
+        }
+
+        private void Five_Click(object sender, EventArgs e)
+        {
+            NumberButtonClick(sender, e);
+        }
+
+        private void Six_Click(object sender, EventArgs e)
+        {
+            NumberButtonClick(sender, e);
+        }
+
+        private void Seven_Click(object sender, EventArgs e)
+        {
+            NumberButtonClick(sender, e);
+        }
+
+        private void Eight_Click(object sender, EventArgs e)
+        {
+            NumberButtonClick(sender, e);
+        }
+
+        private void Nine_Click(object sender, EventArgs e)
+        {
+            NumberButtonClick(sender, e);
+        }
 
         //private void CalculatorApp_Load(object sender, EventArgs e)
-       // {
+        // {
 
-       // }
+        // }
     }
 }
