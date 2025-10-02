@@ -45,7 +45,7 @@
             this.Six = new System.Windows.Forms.Button();
             this.Seven = new System.Windows.Forms.Button();
             this.Eight = new System.Windows.Forms.Button();
-            this.Nine = new System.Windows.Forms.Button();
+          //  this.Nine = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Multiplication

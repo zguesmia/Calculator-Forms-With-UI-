@@ -27,7 +27,7 @@ namespace Calculator__Forms__With_UI_
         int iDigit;
         int iNumber;
         double dNumber;
-        
+
 
         //on the first variable, which is double, it is a placeholder for the result 
         //and ongoing calculations
@@ -47,9 +47,8 @@ namespace Calculator__Forms__With_UI_
         {
             InitializeComponent();
         }
-        void  ProcessAction(bool bAdd, bool bSubs, bool bDiv, bool bMult, bool bSqrRoot, bool bCube)
+        void ProcessAction(bool bAdd, bool bSubs, bool bDiv, bool bMult, bool bSqrRoot, bool bCube)
         {
-         
             //I created this function, to replace common code. Very good practice to replace common code by a function, or method.
             iNumber = iDigit;
             iDigit = 0;
@@ -59,41 +58,22 @@ namespace Calculator__Forms__With_UI_
             bSubtraction = bSubs;
             bSquareRoot = bSqrRoot;
             bCubeRoot = bCube;
- 
+
             //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
-            //to the end of the text in the edit box, so that when he types more characters, they are written where the cursor is , at the end of the existing text
+            //to the end of the text in the edit box, so that when the types more characters, they are written where the cursor is , at the end of the existing text
             ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
             ValueTextBox.SelectionLength = 0;
             ValueTextBox.Focus();
-            
+
         }
 
         private void Subtraction_Click(object sender, EventArgs e)
         {
 
-            {
-            ValueTextBox.Text += "-";
-            szText += "-";
-            ProcessAction(false, true, false, false, false, false);
+                ValueTextBox.Text += "-";
+                szText += "-";
+                ProcessAction(false, true, false, false, false, false);
 
-            bool bselect =  true;
-            iNumber = iDigit;
-            iDigit = 0;
-
-
-            }
-        }
-                //to the end of the text in the edit box, so that when the types more characters, they are written where the cursor is , at the end of the existing text
-                ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
-                ValueTextBox.SelectionLength = 0;
-                ValueTextBox.Focus();
-            }
-        }
-                //to the end of the text in the edit box, so that when the types more characters, they are written where the cursor is , at the end of the existing text
-                ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
-                ValueTextBox.SelectionLength = 0;
-                ValueTextBox.Focus();
-            }
         }
 
         private void Addition_Click(object sender, EventArgs e)
@@ -109,18 +89,14 @@ namespace Calculator__Forms__With_UI_
             ValueTextBox.Text += "/";
             szText += "/";
             ProcessAction(false, false, true, false, false, false);
-
-           
         }
-    
+
 
         private void Multiplication_Click(object sender, EventArgs e)
         {
             ValueTextBox.Text += "x";
             szText += "x";
-           ProcessAction(false, false, false, true, false, false);
-
-
+            ProcessAction(false, false, false, true, false, false);
         }
 
         private void ValueTextBox_TextChanged(object sender, EventArgs e)
@@ -131,25 +107,25 @@ namespace Calculator__Forms__With_UI_
         private void ValueTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             // if the user enters any characters different form a number, + ,-,x,/back space or space we show an error box
-            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '+' && e.KeyChar != '-' 
-                && e.KeyChar != 'x' && e.KeyChar != 'X' && e.KeyChar != '/' && e.KeyChar != '=' 
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '+' && e.KeyChar != '-'
+                && e.KeyChar != 'x' && e.KeyChar != 'X' && e.KeyChar != '/' && e.KeyChar != '='
                 && e.KeyChar != '\b' //back space
                 && e.KeyChar != '\n' // enter key
-                && e.KeyChar != '\r' // carriage return key
+                && e.KeyChar != '\r' // carriage retuen key
                  && e.KeyChar != 0x20) //space
             {
-                e.Handled = true; // this here prevent this character from showing in the edit/text box
+                e.Handled = true;
                 MessageBox.Show("Please enter a valid character");
                 return;
             }
-                szText += e.KeyChar;
+            szText += e.KeyChar;
             szText.Trim();
             if (char.IsDigit(e.KeyChar))
             {
                 // for example,  here a character such as "2" does not have a value of 2. it has a value of 50. You will need to substract it by 48, wich is the value of character '0' (see ASCII table for all values)
                 if (iDigit > 0)
                 {
-                    iDigit = (e.KeyChar - '0')  + (iDigit * 10); // for example, if the user presses 2 after he already pressed 1, 2 will replace 1 in the edit box. in order for the edit box to show 12, you need to add 1x10 to 2, which is 12
+                    iDigit = (e.KeyChar - '0') + (iDigit * 10); // for example, if the user presses 2 after he already pressed 1, 2 will replace 1 in the edit box. in order for the edit box to show 12, you need to add 1x10 to 2, which is 12
                 }
                 else
                 {
@@ -160,28 +136,37 @@ namespace Calculator__Forms__With_UI_
             }
             else if (e.KeyChar == '+')
             {
-               ProcessAction(true, false, false, false, false, false);
+                ProcessAction(true, false, false, false, false, false);
 
-            
-                
+                iNumber = iDigit;
+                iDigit = 0;
+
+
+                //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
+                //to the end of the text in the edit box, so that when the types more characters, they are written where the cursor is , at the end of the existing text
+                ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
+                ValueTextBox.SelectionLength = 0;
+                ValueTextBox.Focus();
+
             }
             else if (e.KeyChar == '-')
             {
-               ProcessAction(false, true, false, false, false, false);
+                ProcessAction(false, true, false, false, false, false);
 
-              
+           
 
             }
             else if (e.KeyChar == 'x')
             {
-              ProcessAction(false, false, false, true, false, false);
+                 ProcessAction(false, false, false, true, false, false);
 
-                      }
+               
+
+            }
             else if (e.KeyChar == '/')
             {
                 ProcessAction(false, false, true, false, false, false);
 
-                  
             }
             if (e.KeyChar == '=' || e.KeyChar == '\n' || e.KeyChar == '\r')
             {
@@ -196,7 +181,7 @@ namespace Calculator__Forms__With_UI_
                 }
                 else if (bDivision)
                 {
-                    if(iDigit == 0)
+                    if (iDigit == 0)
                     {
                         // remember never divide by 0!! . If the user tries that, we show a message and return, otherwise the app will crash.
                         MessageBox.Show("Cannot devide by 0");
@@ -205,7 +190,7 @@ namespace Calculator__Forms__With_UI_
                     }
                     iNumber /= iDigit;
                 }
-                else if(bSubtraction)
+                else if (bSubtraction)
                 {
                     iNumber -= iDigit;
 
@@ -213,7 +198,7 @@ namespace Calculator__Forms__With_UI_
                 //now that we got the result we save into the iDigit variable for subsequent operations, and reset iNumber
                 iDigit = iNumber;
                 iNumber = 0;
-                if(e.KeyChar == '\n' || e.KeyChar == '\r')
+                if (e.KeyChar == '\n' || e.KeyChar == '\r')
                 {
                     szText += "=";
                 }
@@ -236,7 +221,7 @@ namespace Calculator__Forms__With_UI_
             //    }
 
             //}
-           
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -250,8 +235,8 @@ namespace Calculator__Forms__With_UI_
         private void EqualOperator_Click(object sender, EventArgs e)
         {
 
-            ValueTextBox.Text += "=";
-            szText += "=";
+            //ValueTextBox.Text += "=";
+            szText = "";
             if (bAddition)
             {
                 //user clicked on '+', add
@@ -298,15 +283,15 @@ namespace Calculator__Forms__With_UI_
                 szText += iDigit.ToString(); ;
                 ValueTextBox.Text = szText;
             }
-            //here we need to move the mouse cursor to the end of the text in the edit box, so that when he types more characters, they are written where the cursor is , at the end of the existing text
+            //here we need to move the mouse cursor to the end of the text in the edit box, so that when the types more characters, they are written where the cursor is , at the end of the existing text
             ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
             ValueTextBox.SelectionLength = 0;
             ValueTextBox.Focus();
         }
 
-       
 
-     
+
+
         void ResetAll()
         {
             szText = "";
@@ -323,20 +308,6 @@ namespace Calculator__Forms__With_UI_
             szText += "sqr_root ";
             ProcessAction(false, false, false, false, true, false);
 
-            iNumber = iDigit;
-            iDigit = 0;
-            bAddition = false;
-            bDivision = false;
-            bMultiplication = false;
-            bSubtraction = false;
-            bSquareRoot = true;
-            bCubeRoot = false;
-
-            //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
-            //to the end of the text in the edit box, so that when he types more characters, they are written where the cursor is , at the end of the existing text
-            ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
-            ValueTextBox.SelectionLength = 0;
-            ValueTextBox.Focus();
         }
 
         private void SquareRoot3_Click_1(object sender, EventArgs e)
@@ -344,22 +315,8 @@ namespace Calculator__Forms__With_UI_
             ResetAll();
             ValueTextBox.Text += "cube_root ";
             szText += "cube_root ";
-            // ProcessAction(false, false, false, false, false, true);
+            ProcessAction(false, false, false, false, false, true);
 
-            iNumber = iDigit;
-            iDigit = 0;
-            bAddition = false;
-            bDivision = false;
-            bMultiplication = false;
-            bSubtraction = false;
-            bSquareRoot = false;
-            bCubeRoot = true;
-
-            //here the user is typing the equal sign, instead of pushing the '=' button, so we need to move the cursor 
-            //to the end of the text in the edit box, so that when he types more characters, they are written where the cursor is , at the end of the existing text
-            ValueTextBox.SelectionStart = ValueTextBox.Text.Length;
-            ValueTextBox.SelectionLength = 0;
-            ValueTextBox.Focus();
         }
         public void NumberButtonClick(object sender, EventArgs e)
         {
@@ -368,12 +325,13 @@ namespace Calculator__Forms__With_UI_
             char Btnchar = Btn.Text[0];
 
             if (!char.IsDigit(Btnchar)) return;
-          
-            int d = Btnchar - '0';
+
+            iDigit = Btnchar - '0';
+            szText += Btnchar;
 
 
-            iCurrentValue = iCurrentValue * 10 + d;
-    
+        
+
             ValueTextBox.Text += Btnchar;
 
 
@@ -428,9 +386,14 @@ namespace Calculator__Forms__With_UI_
             NumberButtonClick(sender, e);
         }
 
-        //private void CalculatorApp_Load(object sender, EventArgs e)
-       // {
+        private void Zero_Click(object sender, EventArgs e)
+        {
+            NumberButtonClick(sender, e);
+        }
 
-       // }
+        //private void CalculatorApp_Load(object sender, EventArgs e)
+        // {
+
+        // }
     }
 }
